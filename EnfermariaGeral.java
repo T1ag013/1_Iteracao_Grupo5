@@ -10,10 +10,10 @@ import java.util.List;
 public class EnfermariaGeral extends Enfermaria {
 
   /** Número máximo de acompanhantes permitidos por paciente. */
-  private int limiteAcompanhantes
+  private int limiteAcompanhantes;
   
   /** Horário de visitas da enfermaria. */
-  private String horarioVisitas
+  private String horarioVisitas;
 
   /**
    * Cria uma nova enfermaria geral.
