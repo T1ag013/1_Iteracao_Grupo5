@@ -24,7 +24,7 @@ public class EnfermariaGeral extends Enfermaria {
    * @param id                  identificador único de enfermaria
    * @param camas               número toal de camas
    * @param limiteAcompanhantes número máximo de acompanhantes por paciente
-   * @param horarioVisitas      hor+ário de visitas permitido
+   * @param horarioVisitas      horário de visitas permitido
    */
   public EnfermariaGeral(String id, int camas, int limiteAcompanhantes, String horarioVisitas) {
     super (id, camas);
@@ -35,7 +35,7 @@ public class EnfermariaGeral extends Enfermaria {
 
   /**
    * Adiciona um recurso à lista de recursos disponíveis na enfermaria.
-   * Ignora valores nulos ou me branco.
+   * Ignora valores nulos ou em branco.
    *
    * @param recurso nome do recurso a adicionar
    */
@@ -52,6 +52,43 @@ public class EnfermariaGeral extends Enfermaria {
    * @return {@code true} se removido com sucesso, {@code false} se não existia
    */
   public boolean removerRecurso(String recurso){
-    return recursosDisponieis.remove(recurso);
+    return recursosDisponiveis.remove(recurso);
+  }
+
+  /**
+   * Retorna o número máximo de acompanhantes por paciente.
+   * 
+   * @return limiteAcompanhantes
+   */
+  public int getLimiteAcompanhantes(){
+    return limiteAcompanhantes;
+  }
+
+  /**
+   * Retorna o horário de visitas da enfermaria.
+   * 
+   * @return horário de visitas
+   */
+  public String getHorariosVisitas(){
+    return horarioVisitas;
+  }
+
+  /**
+   * Retorna uma cópia da lista de recursos disponíveis.
+   *
+   * @return lista de recursos (cópia defensiva)
+   */
+  public List<String> getRecursosDisponiveis(){
+    return new ArrayList<>(recursosDisponiveis);
+  }
+  /**
+   * Retorna uma representação textual da enfermaria geral.
+   *
+   * @return string com identificador, camas, acaompanhantes e horário de visitas
+   */
+  @Override
+  public String toString(){
+    return String.format("%s | Tipo: Geral | Acompanhantes: %d | Visitas: %s | Recursos: %s",
+                         super.toString(), limiteAcompanhantes, horarioVisitas, recursosDisponiveis);
   }
 }
