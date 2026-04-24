@@ -79,8 +79,19 @@ public class EnfermariaGeral extends Enfermaria {
    * @return lista de recursos (cópia defensiva)
    */
   public List<String> getRecursosDisponiveis(){
-    return new ArrayList<>(recursosDisponiveis);
+      return new ArrayList<>(recursosDisponiveis);
   }
+
+    /**
+     * Devolve o tipo de enfermaria.
+     *
+     * @return tipo de enfermaria
+     */
+  @Override
+  public String getTipoEnfermaria(){
+      return "Geral";
+  }
+
   /**
    * Retorna uma representação textual da enfermaria geral.
    *
@@ -89,6 +100,6 @@ public class EnfermariaGeral extends Enfermaria {
   @Override
   public String toString(){
     return String.format("%s | Tipo: Geral | Acompanhantes: %d | Visitas: %s | Recursos: %s",
-                         super.toString(), limiteAcompanhantes, horarioVisitas, recursosDisponiveis);
+            super.toString(), limiteAcompanhantes, horarioVisitas, recursosDisponiveis);
   }
 }
