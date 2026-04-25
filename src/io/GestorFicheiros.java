@@ -123,3 +123,69 @@ public class GestorFicheiros {
     private static boolean validarCapacidade(int capacidade) {
         return capacidade >= CAPACIDADE_MINIMA;
     }
+
+    public static void carregarEnfermarias(String path, Hospital hospital) throws IOException {
+        File ficheiro = resolverFicheiro(path);
+        if (!ficheiro.exists()) {
+            System.out.println("  [AVISO] Ficheiro não encontrado: " + ficheiro.getPath());
+            return;
+        }
+
+        Scanner sc = new Scanner(ficheiro);
+        if (sc.hasNextLine()) {
+            sc.nextLine();
+        }
+
+        int linha = 1;
+        while (sc.hasNextLine()) {
+            linha++;
+            processarLinhaEnfermaria(sc.nextLine(), linha, hospital);
+        }
+        sc.close();
+    }
+
+    private static void processarLinhaEnfermaria(String linhaCsv, int linha, Hospital hospital) throws IOException {
+        String conteudo = linhaCsv.trim();
+        if (conteudo.isEmpty()) {
+            return;
+        }
+
+        String[] dados = conteudo.split(";");
+        if (dados.length < 4) {
+            logErro("Linha " + linha + ": dados insuficientes na enfermaria.");
+            return;
+        }
+
+        String tipo = dados[0].trim().toUpperCase();
+        String id = dados[1].trim();
+        String capacidade = dados[2].trim();
+
+        if (!validarString(id)) {
+            logErro("Linha " + linha + ": identificador invalido.");
+            return;
+        }
+        if (hospital.obterEnfermaria(id) != null) {
+            logErro("Linha " + linha + ": enfermaria repetida (" + id + ").");
+            return;
+        }
+        if (!validarInteiro(capacidade)) {
+            logErro("Linha " + linha + ": capacidade invalida.");
+            return;
+        }
+
+        int numeroCamas = Integer.parseInt(capacidade);
+        if (!validarCapacidade(numeroCamas)) {
+            logErro("Linha " + linha + ": capacidade invalida (" + numeroCamas + ").");
+            return;
+        }
+
+        if (tipo.equals("GERAL")) {
+            processarEnfermariaGeral(dados, linha, id, numeroCamas, hospital);
+        } else if (tipo.equals("PSIQUIATRICA")) {
+            processarEnfermariaPsiquiatrica(dados, linha, id, numeroCamas, hospital);
+        } else if (tipo.equals("INTENSIVOS")) {
+            processarEnfermariaCuidadosIntensivos(dados, linha, id, numeroCamas, hospital);
+        } else {
+            logErro("Linha " + linha + ": tipo desconhecido (" + tipo + ").");
+        }
+    }
