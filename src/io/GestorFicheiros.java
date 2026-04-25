@@ -360,3 +360,18 @@ private static void processarLinhaEpisodio(String linhaCsv, int linha, Hospital 
     enfermaria.adicionarEpisodio(episodio);
 }
 
+/**
+ * Remove espaços extra dos campos.
+ *
+ * @param campos campos lidos
+ * @return lista de campos limpos
+ */
+private static List<String> limparCampos(String[] campos) {
+    List<String> limpos = new ArrayList<>();
+    for (String campo : campos) {
+        limpos.add(campo == null ? "" : campo.trim());
+    }
+    return limpos;
+}
+
+
