@@ -67,3 +67,59 @@ public class GestorFicheiros {
         }
         return new File(PASTA_DADOS, caminho);
     }
+
+    //VALIDAÇÕES
+    private static boolean validarString(String valor) {
+        return valor != null && !valor.isBlank();
+    }
+
+    private static boolean validarInteiro(String valor) {
+        if (!validarString(valor)) {
+            return false;
+        }
+        String limpa = valor.trim();
+        for (int i = 0; i < limpa.length(); i++) {
+            char c = limpa.charAt(i);
+            if (!Character.isDigit(c) && !(i == 0 && c == '-')) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean validarDecimal(String valor) {
+        if (!validarString(valor)) {
+            return false;
+        }
+        String limpa = valor.trim();
+        int pontos = 0;
+        for (int i = 0; i < limpa.length(); i++) {
+            char c = limpa.charAt(i);
+            if (c == '.') {
+                pontos++;
+            } else if (!Character.isDigit(c) && !(i == 0 && c == '-')) {
+                return false;
+            }
+        }
+        return pontos <= 1;
+    }
+
+    private static boolean validarData(String valor) {
+        if (!validarString(valor)) {
+            return false;
+        }
+        String[] partes = valor.trim().split("-");
+        if (partes.length != 3) {
+            return false;
+        }
+        if (!validarInteiro(partes[0]) || !validarInteiro(partes[1]) || !validarInteiro(partes[2])) {
+            return false;
+        }
+        int mes = Integer.parseInt(partes[1]);
+        int dia = Integer.parseInt(partes[2]);
+        return mes >= 1 && mes <= 12 && dia >= 1 && dia <= 31;
+    }
+
+    private static boolean validarCapacidade(int capacidade) {
+        return capacidade >= CAPACIDADE_MINIMA;
+    }
