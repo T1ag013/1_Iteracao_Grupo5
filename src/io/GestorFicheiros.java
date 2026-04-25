@@ -334,3 +334,33 @@ private static void processarEnfermariaPsiquiatrica(String[] dados, int linha, S
     }
     hospital.adicionarEnfermaria(new EnfermariaPsiquiatrica(id, numeroCamas, dados[3].trim(), dados[4].trim()));
 }
+
+
+/**
+ * Processa uma enfermaria de cuidados intensivos.
+ *
+ * @param dados campos do CSV
+ * @param linha número da linha
+ * @param id identificador da enfermaria
+ * @param numeroCamas número de camas
+ * @param hospital hospital de destino
+ * @throws IOException se ocorrer erro na escrita
+ */
+private static void processarEnfermariaCuidadosIntensivos(String[] dados, int linha, String id, int numeroCamas, Hospital hospital) throws IOException {
+
+    //Garantimos que os Cuidados Intensivos têm 6 colunas no total e também que as colunas das pressões  têm formato decimal
+    if (dados.length < 6 || !validarString(dados[3]) || !validarDecimal(dados[4]) || !validarDecimal(dados[5])) {
+        logErro("Linha " + linha + ": dados invalidos para cuidados intensivos.");
+        return;
+    }
+
+    double pressao = Double.parseDouble(dados[4].trim());
+    double pressaoReferencia = Double.parseDouble(dados[5].trim());
+    //Num ambiente hospitalar, os valores de pressão devem ser positivos.
+    if (pressao <= 0 || pressaoReferencia <= 0) {
+        logErro("Linha " + linha + ": pressoes invalidas.");
+        return;
+    }
+
+    hospital.adicionarEnfermaria(new EnfermariaCuidadosIntensivos(id, numeroCamas, dados[3].trim(),pressao, pressaoReferencia));
+}
