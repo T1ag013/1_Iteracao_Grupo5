@@ -314,3 +314,23 @@ private static void processarEnfermariaGeral(String[] dados, int linha, String i
 
     hospital.adicionarEnfermaria(enfermaria);
 }
+
+/**
+ * Processa uma enfermaria psiquiátrica.
+ *
+ * @param dados campos do CSV
+ * @param linha número da linha
+ * @param id identificador da enfermaria
+ * @param numeroCamas número de camas
+ * @param hospital hospital de destino
+ * @throws IOException se ocorrer erro na escrita
+ */
+private static void processarEnfermariaPsiquiatrica(String[] dados, int linha, String id, int numeroCamas, Hospital hospital) throws IOException {
+
+    // Garante que os atributos do índice 3 e 4 (horário e nível de segurança existem e não são texto em branco.
+    if (dados.length < 5 || !validarString(dados[3]) || !validarString(dados[4])) {
+        logErro("Linha " + linha + ": dados invalidos para enfermaria psiquiatrica.");
+        return;
+    }
+    hospital.adicionarEnfermaria(new EnfermariaPsiquiatrica(id, numeroCamas, dados[3].trim(), dados[4].trim()));
+}
