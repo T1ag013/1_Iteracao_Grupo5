@@ -1,26 +1,22 @@
 
 package io;
 
-import modelo.Enfermaria;
-import modelo.EnfermariaCuidadosIntensivos;
-import modelo.EnfermariaGeral;
-import modelo.EnfermariaPsiquiatrica;
-import modelo.Episodio;
-import modelo.Hospital;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
  * Classe responsável pela leitura e validação de dados a partir de ficheiros CSV.
- * Os erros de validação são registados no ficheiro {@code erros_validacao.log}.
- * Todos os erros de I/O são propagados com {@code throws}, sem {@code try/catch}.
- *
+ * Os erros de validação são registados no ficheiro {@code erros_validacao.log}.*
  * @author Grupo
  * @version 1.0
  */
@@ -34,7 +30,6 @@ public class GestorFicheiros {
 
     /**
      * Regista uma mensagem de erro no ficheiro de log.
-     * O ficheiro é aberto em modo de acrescento para preservar entradas anteriores.
      *
      * @param mensagem mensagem de erro a registar
      * @throws IOException se ocorrer erro ao escrever no ficheiro de log
@@ -265,6 +260,8 @@ public class GestorFicheiros {
         }
     }
 
+
+
     /**
      * Carrega episódios a partir de um ficheiro CSV e associa-os às enfermarias do hospital.
      * @param path caminho para o ficheiro CSV dos episódios
@@ -294,7 +291,7 @@ public class GestorFicheiros {
         }
         sc.close();
     }
-}
+
 
 private static void processarLinhaEpisodio(String linhaCsv, int linha, Hospital hospital) {
     String conteudo = linhaCsv.trim();
@@ -372,6 +369,7 @@ private static List<String> limparCampos(String[] campos) {
         limpos.add(campo == null ? "" : campo.trim());
     }
     return limpos;
+}
 }
 
 

@@ -155,6 +155,9 @@ public class MainHospital {
                 } else {
                     return diretorio;
                 }
+            }
+        }
+    }
 
 
                 /**
@@ -176,8 +179,7 @@ public class MainHospital {
                         }
                     }
                 }
-            }
-        }
+
 
         /**
          * Lê a data final do intervalo.
@@ -196,3 +198,4 @@ public class MainHospital {
                 }
             }
         }
+    }
