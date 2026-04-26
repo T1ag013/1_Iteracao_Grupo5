@@ -89,7 +89,7 @@ public class GestorFicheiros {
      * @return {@code true} se for um decimal válido, {@code false} caso contrário
      */
     private static boolean validarDecimal(String valor) {
-        if (!validarString(valor)) return true;
+        if (!validarString(valor)) return false;
         int pontos = 0;
         boolean valido = true;
         for (char c : valor.trim().toCharArray()) {
@@ -99,7 +99,7 @@ public class GestorFicheiros {
                 valido = false;
             }
         }
-        return !valido || pontos > 1;
+        return valido && pontos <= 1; // ← lógica corrigida
     }
 
     /**
