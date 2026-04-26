@@ -1,10 +1,13 @@
 
 package io;
 
+import modelo.Hospital;
+import modelo.Enfermaria;
+import modelo.Episodio;
+import modelo.EnfermariaGeral;
+import modelo.EnfermariaPsiquiatrica;
+import modelo.EnfermariaCuidadosIntensivos;
 
-
-import java.util.ArrayList;
-import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -38,6 +41,16 @@ public class GestorFicheiros {
         PrintWriter escritor = new PrintWriter(new FileWriter(FICHEIRO_LOG, true));
         escritor.println("[ERRO] " + LocalDate.now() + ": " + mensagem);
         escritor.flush();
+        escritor.close();
+    }
+
+    /**
+     * Limpa o conteúdo do ficheiro de log de erros no arranque da aplicação.
+     *
+     * @throws IOException se ocorrer erro ao aceder ao ficheiro de log
+     */
+    public static void limparLog() throws IOException {
+        PrintWriter escritor = new PrintWriter(new FileWriter(FICHEIRO_LOG, false));
         escritor.close();
     }
 
@@ -76,7 +89,7 @@ public class GestorFicheiros {
      * @return {@code true} se for um decimal válido, {@code false} caso contrário
      */
     private static boolean validarDecimal(String valor) {
-        if (!validarString(valor)) return false;
+        if (!validarString(valor)) return true;
         int pontos = 0;
         boolean valido = true;
         for (char c : valor.trim().toCharArray()) {
@@ -86,7 +99,7 @@ public class GestorFicheiros {
                 valido = false;
             }
         }
-        return valido && pontos <= 1;
+        return !valido || pontos > 1;
     }
 
     /**
@@ -95,7 +108,7 @@ public class GestorFicheiros {
      * @param valor string a validar
      * @return {@code true} se for uma data válida, {@code false} caso contrário
      */
-    private static boolean validarData(String valor) {
+    public static boolean validarData(String valor) {
         if (!validarString(valor)) return false;
         String[] partes = valor.trim().split("-");
         if (partes.length != 3) return false;
@@ -247,7 +260,7 @@ public class GestorFicheiros {
                                                               String id, int cap, Hospital h)
             throws IOException {
 
-        if (d.length < 6 || !validarString(d[3]) || !validarDecimal(d[4]) || !validarDecimal(d[5])) {
+        if (d.length < 6 || !validarString(d[3]) || validarDecimal(d[4]) || validarDecimal(d[5])) {
             logErro("Linha " + linha + ": INTENSIVOS requer horario, pressao e pressao de referencia validos.");
         } else {
             double pressao    = Double.parseDouble(d[4].trim());
@@ -264,13 +277,17 @@ public class GestorFicheiros {
 
     /**
      * Carrega episódios a partir de um ficheiro CSV e associa-os às enfermarias do hospital.
+     * Formato esperado: ID_ENFERMARIA;ID_CAMA;DATA_ADMISSAO[;DATA_ALTA]
+     * A primeira linha é tratada como cabeçalho e ignorada.
+     * Entradas inválidas são registadas no ficheiro de log.
+     *
      * @param path caminho para o ficheiro CSV dos episódios
-     * @param h    hospital com as enfermarias já carregadas
+     * @param hospital com as enfermarias já carregadas
      * @throws IOException           se ocorrer erro ao escrever no ficheiro de log
      * @throws FileNotFoundException se o ficheiro CSV não for encontrado
      */
     public static void carregarEpisodios(String path, Hospital hospital) throws IOException {
-        File ficheiro = resolverFicheiro(path);
+        File ficheiro = new File(path);
 
         // Saída limpa em vez de estoirar com FileNotFoundException
         if (!ficheiro.exists()) {
@@ -292,8 +309,15 @@ public class GestorFicheiros {
         sc.close();
     }
 
-
-private static void processarLinhaEpisodio(String linhaCsv, int linha, Hospital hospital) {
+    /**
+     * Processa e valida uma linha do CSV de episódios, criando o episódio correspondente.
+     *
+     * @param linhaCsv linha de texto lida do ficheiro CSV
+     * @param linha    número da linha no ficheiro (para log)
+     * @param hospital hospital com as enfermarias já carregadas
+     * @throws IOException se ocorrer erro ao escrever no ficheiro de log
+     */
+private static void processarLinhaEpisodio(String linhaCsv, int linha, Hospital hospital) throws IOException {
     String conteudo = linhaCsv.trim();
     if (conteudo.isEmpty()) {
         return;
@@ -357,19 +381,6 @@ private static void processarLinhaEpisodio(String linhaCsv, int linha, Hospital 
     enfermaria.adicionarEpisodio(episodio);
 }
 
-/**
- * Remove espaços extra dos campos.
- *
- * @param campos campos lidos
- * @return lista de campos limpos
- */
-private static List<String> limparCampos(String[] campos) {
-    List<String> limpos = new ArrayList<>();
-    for (String campo : campos) {
-        limpos.add(campo == null ? "" : campo.trim());
-    }
-    return limpos;
-}
 }
 
 

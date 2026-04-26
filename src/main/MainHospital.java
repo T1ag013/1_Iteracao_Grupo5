@@ -90,12 +90,12 @@ public class MainHospital {
 
         // RF3 - ANÁLISE DE PRESSÃO POR INTERVALO DE DATAS
         System.out.println("\n" + SEPARADOR);
-        System.out.printf("Analise de Pressao [%s a %s]%n", DATA_INICIO, DATA_FIM);
+        System.out.printf("Analise de Pressao [%s a %s]%n", dataInicio, dataFim);
         System.out.println(SEPARADOR);
 
         for (Enfermaria enf : hospital.getEnfermarias()) {
             System.out.printf("%nEnfermaria %s:%n", enf.getIdentificador());
-            AnalisadorEstatistico.analisarPressaoPorIntervalo(enf, DATA_INICIO, DATA_FIM);
+            AnalisadorEstatistico.analisarPressaoPorIntervalo(enf, dataInicio, dataFim);
         }
 
         System.out.println("\n" + SEPARADOR);
@@ -172,7 +172,7 @@ public class MainHospital {
                         String texto = leitor.nextLine().trim();
 
                         // Usamos o teu método de validação como barreira.
-                        if (validarData(texto)) {
+                        if (GestorFicheiros.validarData(texto)) {
                             return LocalDate.parse(texto);
                         } else {
                             System.out.println("Data invalida. Use o formato AAAA-MM-DD.");
@@ -198,4 +198,14 @@ public class MainHospital {
                 }
             }
         }
+    /**
+     * Constrói o caminho completo de um ficheiro de forma compatível entre sistemas.
+     *
+     * @param diretorio diretório base
+     * @param nomeFicheiro nome do ficheiro
+     * @return caminho completo
+     */
+    public static String construirCaminho(String diretorio, String nomeFicheiro) {
+        return new File(diretorio, nomeFicheiro).getPath();
     }
+}
