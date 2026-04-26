@@ -46,7 +46,7 @@ public class EnfermariaPsiquiatrica extends Enfermaria {
 
     @Override
     public String getTipoEnfermaria() {
-        return "Geral";
+        return "Psiquiatrica";
     }
 
     /**

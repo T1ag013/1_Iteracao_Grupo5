@@ -22,7 +22,7 @@ public class EnfermariaCuidadosIntensivos extends Enfermaria {
      * @param horarioVisitas horário de visitas
      * @param pressaoAtmosferica pressão atmosférica observada
      * @param pressaoAtmosfericaReferencia pressão atmosférica de referência.
-    .     */
+    */
     public EnfermariaCuidadosIntensivos(String id, int camas, String horarioVisitas,
                                         double pressaoAtmosferica, double pressaoAtmosfericaReferencia) {
         super(id, camas);

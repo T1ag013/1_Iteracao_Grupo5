@@ -49,7 +49,7 @@ public class AnalisadorEstatistico {
         }
 
         /**
-         * Devolve o número de epis´dios.
+         * Devolve o número de episódios.
          *
          * @return número de episódios
          */
@@ -93,6 +93,13 @@ public class AnalisadorEstatistico {
             return maximo;
         }
 
+
+        /**
+         * Retorna uma representação textual do resumo estatístico do LoS.
+         *
+         * @return string com total de episódios, média, desvio padrão, mínimo e máximo,
+         * ou "Sem episódios com alta" se {@code totalEpisodios} for zero
+         */
         @Override
         public String toString(){
             if (totalEpisodios == 0){

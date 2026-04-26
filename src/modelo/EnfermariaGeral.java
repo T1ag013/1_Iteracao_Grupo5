@@ -82,6 +82,11 @@ public class EnfermariaGeral extends Enfermaria {
     return new ArrayList<>(recursosDisponiveis);
   }
 
+    /**
+     * Retorna o tipo de enfermaria.
+     *
+     * @return string "Geral" indicando o tipo desta enfermaria
+     */
     @Override
     public String getTipoEnfermaria() {
         return "Geral";
