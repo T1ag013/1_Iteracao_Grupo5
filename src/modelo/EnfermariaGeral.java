@@ -81,7 +81,13 @@ public class EnfermariaGeral extends Enfermaria {
   public List<String> getRecursosDisponiveis(){
     return new ArrayList<>(recursosDisponiveis);
   }
-  /**
+
+    @Override
+    public String getTipoEnfermaria() {
+        return "Geral";
+    }
+
+    /**
    * Retorna uma representação textual da enfermaria geral.
    *
    * @return string com identificador, camas, acaompanhantes e horário de visitas
