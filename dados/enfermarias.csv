@@ -1,5 +1,5 @@
 Tipo;ID;Capacidade;Extra1;Extra2;Recursos
-GERAL;G1;4;2;09:00-19:00;Monitor multiparametrico;Bomba de infusao
+GERAL;G1;4;2;09:00-19:00;Monitor; Esfinganometro
 PSIQUIATRICA;P1;3;14:00-17:00;ALTO
 INTENSIVOS;U1;2;11:00-12:00;755.2;760.0
 GERAL;G2;5;1;10:00-18:00;Oxigenio;Telemetria
